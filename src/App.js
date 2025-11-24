@@ -26,7 +26,7 @@ const generateRoomCode = () => Math.floor(100000 + Math.random() * 900000).toStr
 // --- 多语言字典 ---
 const TEXT = {
   zh: {
-    title: '⚔️ 巨石纹章 ⚔️',
+    title: '⚔️ 推大石头 ⚔️',
     create: '建立决斗',
     join: '加入决斗',
     roomCode: '房间码',
@@ -38,7 +38,7 @@ const TEXT = {
     danger: '危险!',
     crushing: '碾压!',
     resist: '顶住!',
-    clash: '对决',
+    clash: '势均力敌',
     victory: '史诗大捷',
     defeat: '惨遭碾压',
     rematch: '申请重赛',
@@ -47,8 +47,7 @@ const TEXT = {
     leave: '离开',
     vsMe: '我方',
     vsOpp: '对方',
-    // 新增版权信息
-    producedBy: 'Produced by Kouzen Joe',
+    producedBy: 'Produced by Kouzen Jo',
     rights: '© 2024 All Rights Reserved'
   },
   en: {
@@ -73,8 +72,7 @@ const TEXT = {
     leave: 'Leave',
     vsMe: 'Me',
     vsOpp: 'Enemy',
-    // 新增版权信息
-    producedBy: 'Produced by Kouzen Joe',
+    producedBy: 'Produced by Kouzen Jo',
     rights: '© 2024 All Rights Reserved'
   }
 };
@@ -144,7 +142,7 @@ const createExplosion = (x, y) => {
 };
 
 function App() {
-  const [lang, setLang] = useState('zh'); // 语言状态
+  const [lang, setLang] = useState('zh'); 
   const [gameState, setGameState] = useState('lobby'); 
   const [roomCode, setRoomCode] = useState('');
   const [joinCodeInput, setJoinCodeInput] = useState('');
@@ -158,7 +156,7 @@ function App() {
   const gameOverRef = useRef(false);
   const soundPlayedRef = useRef(false);
 
-  const t = TEXT[lang]; // 当前语言包
+  const t = TEXT[lang]; 
 
   // --- 房间管理 ---
   const createRoom = async () => {
@@ -243,18 +241,14 @@ function App() {
 
   const handlePush = (e) => {
     if (gameState !== 'playing' || !roomRef.current) return;
-    
-    // 防止默认行为
     if (e.cancelable) e.preventDefault();
 
     setIsShaking(true);
-    // 200ms 后自动停止震动 (与 CSS 动画时间匹配)
     setTimeout(() => setIsShaking(false), 200);
 
     playSound('hit');
     if (navigator.vibrate) navigator.vibrate(10, 30, 10); 
     
-    // 获取点击坐标 (PointerEvent 统一了 clientX/Y)
     const clientX = e.clientX;
     const clientY = e.clientY;
     createExplosion(clientX, clientY);
@@ -286,8 +280,6 @@ function App() {
 
   // --- 视觉计算 ---
   const myProgress = myRoleRef.current === 'host' ? score : (100 - score);
-  
-  // 修复2：调整映射系数 (12 -> 10)
   const stoneZ = (50 - myProgress) * 10; 
 
   let centerText = t.clash;
@@ -298,11 +290,16 @@ function App() {
   if (myProgress < 20) { centerText = t.danger; dangerLevel = 2; }
 
   return (
-    // 根据 isShaking 状态动态添加 CSS 类
     <div className={isShaking ? 'shaking' : ''} style={styles.container}>
       {gameState !== 'lobby' && (
         <div style={styles.scene3D}>
-          {/* 3. 修复：使用纯色渐变替代 404 图片 */}
+          {/* 新增：太阳 */}
+          <div style={styles.sun}></div>
+          {/* 新增：移动的云朵，应用 CSS 动画类名 */}
+          <div className="cloud-slow" style={{...styles.cloud, top: '15%', left: '10%'}}></div>
+          <div className="cloud-medium" style={{...styles.cloud, top: '25%', left: '60%', transform: 'scale(0.8)', opacity: 0.8}}></div>
+          
+          {/* 地面图层 */}
           <div style={styles.fullScreenRoad}></div>
         </div>
       )}
@@ -310,7 +307,6 @@ function App() {
       {/* --- 大厅 --- */}
       {gameState === 'lobby' && (
         <div style={styles.lobbyOverlay}>
-          {/* 语言切换按钮 */}
           <button style={styles.langBtn} onClick={toggleLang}>
             {lang === 'zh' ? '🇺🇸 EN' : '🇨🇳 中文'}
           </button>
@@ -340,7 +336,6 @@ function App() {
             </div>
           </div>
           
-          {/* 1. 新增：底部版权信息 */}
           <div style={styles.footer}>
             <p style={{margin: 0}}>{t.producedBy}</p>
             <p style={{margin: '5px 0 0', fontSize: '0.7rem', opacity: 0.7}}>{t.rights}</p>
@@ -350,7 +345,6 @@ function App() {
 
       {/* --- 游戏层 --- */}
       {(gameState === 'playing' || gameState === 'finished') && (
-        // 2. 修复：使用 onPointerDown 统一处理点击，解决手机双击问题
         <div style={styles.gameLayer} onPointerDown={handlePush}>
           
           <div style={styles.centerHud}>
@@ -379,7 +373,6 @@ function App() {
              </div>
           </div>
 
-          {/* 石头层 */}
           <div style={styles.stoneStage}>
             <motion.div 
               style={styles.stoneWrapper}
@@ -435,12 +428,11 @@ function App() {
 
 // --- CSS ---
 const styles = {
-  // 容器样式
+  // 修改：背景色改为浅蓝天色
   container: { height: '100vh', width: '100vw', overflow: 'hidden', 
     touchAction: 'none', userSelect: 'none', fontFamily: '"Palatino Linotype", "Book Antiqua", serif', 
-    backgroundColor: '#2b1d0e' },
+    backgroundColor: '#87CEEB' },
 
-  // 语言按钮
   langBtn: {
     position: 'absolute', top: '20px', right: '20px',
     background: 'rgba(255,255,255,0.2)', color: '#fff', border: '1px solid #fff',
@@ -450,19 +442,35 @@ const styles = {
 
   scene3D: {
     position: 'absolute', width: '100%', height: '100%',
-    perspective: '800px', perspectiveOrigin: '50% 50%', // 视角居中
+    perspective: '800px', perspectiveOrigin: '50% 50%',
     overflow: 'hidden', zIndex: 0,
   },
   
-  // 修复：使用线性渐变代替 404 图片
+  // 修改：地面渐变，远处透明露出天空
   fullScreenRoad: {
     position: 'absolute', 
     width: '300vw', height: '300vh', 
     left: '-100vw', top: '-100vh', 
-    // 从下(近处)到上(远处)，颜色由浅变深，模拟纵深感
-    backgroundImage: `linear-gradient(to top, #5d4037 0%, #3e2723 40%, #2b1d0e 80%, #1a120b 100%)`,
-    transform: 'rotateX(40deg) translateZ(-500px)', // 调整角度，让它看起来像平地延伸
-    boxShadow: 'inset 0 0 200px rgba(0,0,0,0.8)', 
+    // 从上到下：透明 -> 深褐色 -> 更深褐色
+    backgroundImage: `linear-gradient(to bottom, transparent 0%, rgba(93, 64, 55, 0.8) 40%, #3e2723 80%, #1a120b 100%)`,
+    transform: 'rotateX(40deg) translateZ(-500px)',
+    boxShadow: 'inset 0 0 200px rgba(0,0,0,0.5)', 
+  },
+
+  // 新增：太阳样式
+  sun: {
+    position: 'absolute', top: '10%', right: '15%',
+    width: '80px', height: '80px',
+    backgroundColor: '#FFD700', borderRadius: '50%',
+    boxShadow: '0 0 40px #FFD700, 0 0 80px #FFA500'
+  },
+
+  // 新增：云朵基础样式
+  cloud: {
+    position: 'absolute', width: '120px', height: '40px',
+    backgroundColor: '#fff', borderRadius: '50px',
+    boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+    opacity: 0.9,
   },
 
   lobbyOverlay: {
@@ -471,18 +479,12 @@ const styles = {
       linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
       url(${LobbyBg})
     `,
-    backgroundSize: 'cover',   // 铺满全屏
-    backgroundPosition: 'center', // 居中显示
-    backgroundRepeat: 'no-repeat',
-    
-    display: 'flex', 
-    justifyContent: 'center', 
-    alignItems: 'center',
+    backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
+    display: 'flex', justifyContent: 'center', alignItems: 'center',
     animation: 'fadeIn 1s ease-out' 
   },
   lobbyInner: { width: '320px', textAlign: 'center' },
   
-  // 新增：底部版权样式
   footer: {
     position: 'absolute', bottom: '20px', width: '100%', textAlign: 'center',
     color: '#aaa', fontSize: '0.8rem', letterSpacing: '1px', textShadow: '1px 1px 2px #000'
