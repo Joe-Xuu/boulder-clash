@@ -1,70 +1,144 @@
-# Getting Started with Create React App
+⚔️ Boulder Clash
+A Real-Time Multiplayer Tug-of-War Game for Mobile Web.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+🔴 Live Demo (Replace with your actual Vercel link)
 
-## Available Scripts
+📖 About The Project
+Boulder Clash is a 1v1 online tapping game designed primarily for mobile browsers. Two players compete by tapping their screens as fast as possible to push a giant boulder toward their opponent.
 
-In the project directory, you can run:
+Built with React and Firebase Realtime Database, it features a unique "Low Poly" medieval aesthetic, pseudo-3D CSS environments, and instant synchronization—no app download required.
 
-### `npm start`
+✨ Key Features
+Real-Time Multiplayer: Instant state synchronization using Firebase.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Room System: Easy matchmaking via 6-digit room codes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Mobile Optimized:
 
-### `npm test`
+Solves the "300ms delay" & ghost clicks using Pointer Events.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Full-screen immersive experience using 100dvh (Dynamic Viewport Height).
 
-### `npm run build`
+Immersive Visuals:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+CSS-based Pseudo-3D environment (Infinite scrolling dirt road).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Particle explosions and screen shake effects on every tap.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Daytime skybox with sun and moving clouds.
 
-### `npm run eject`
+Audio Synthesis: Built-in sound effects using the Web Audio API (no external assets needed).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Internationalization (i18n): One-click toggle between English and Chinese.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Rematch System: Synchronized "Play Again" functionality.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+🛠 Tech Stack
+Frontend: React.js
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Backend / Database: Firebase Realtime Database
 
-## Learn More
+Animation: Framer Motion & CSS3 Animations
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Styling: CSS Modules / Inline Styles
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Deployment: Vercel
 
-### Code Splitting
+🚀 Getting Started
+Follow these steps to set up the project locally.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Prerequisites
+Node.js (v14 or higher)
 
-### Analyzing the Bundle Size
+npm or yarn
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Installation
+Clone the repository
 
-### Making a Progressive Web App
+Bash
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+git clone https://github.com/your-username/boulder-clash.git
+cd boulder-clash
+Install dependencies
 
-### Advanced Configuration
+Bash
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+npm install
+Configure Firebase
 
-### Deployment
+Go to the Firebase Console.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Create a new project.
 
-### `npm run build` fails to minify
+Enable Realtime Database (start in Test Mode).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Go to Project Settings -> General -> Your apps -> Web app.
+
+Copy your configuration keys.
+
+Set up Environment Variables Create a .env file in the root directory and add your Firebase keys:
+
+代码段
+
+REACT_APP_FIREBASE_API_KEY=your_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+REACT_APP_FIREBASE_DATABASE_URL=https://your_project_id.firebaseio.com
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+REACT_APP_FIREBASE_APP_ID=your_app_id
+Run the local server
+
+Bash
+
+npm start
+Open http://localhost:3000 to view it in the browser.
+
+🎮 How to Play
+Host: Click "Create Duel" (or "建立决斗") to generate a Room Code.
+
+Guest: Enter the Room Code on another device and click "Join Duel".
+
+Battle:
+
+Tap the screen as fast as you can!
+
+Push the boulder to the opponent's side (0%) to win.
+
+If the boulder reaches your side (100%), you lose.
+
+Rematch: Both players must click "Rematch" to start a new round instantly.
+
+📦 Deployment
+This project is optimized for deployment on Vercel.
+
+Push your code to GitHub.
+
+Import the repository on Vercel.
+
+Crucial: Add the Environment Variables (from your .env file) in the Vercel project settings.
+
+Deploy!
+
+🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+Fork the Project
+
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+
+Push to the Branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
+
+👤 Author
+Kouzen Jo
+
+Role: Developer & Designer
+
+📄 License
+Distributed under the MIT License. See LICENSE for more information.
+
+© 2025 Kouzen Jo. All Rights Reserved.
