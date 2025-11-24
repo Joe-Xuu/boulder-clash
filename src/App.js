@@ -26,7 +26,7 @@ const generateRoomCode = () => Math.floor(100000 + Math.random() * 900000).toStr
 // --- 多语言字典 ---
 const TEXT = {
   zh: {
-    title: '⚔️ 推大石头 ⚔️',
+    title: '⚔️ 巨石纹章 ⚔️',
     create: '建立决斗',
     join: '加入决斗',
     roomCode: '房间码',
@@ -38,7 +38,7 @@ const TEXT = {
     danger: '危险!',
     crushing: '碾压!',
     resist: '顶住!',
-    clash: '势均力敌',
+    clash: '对决',
     victory: '史诗大捷',
     defeat: '惨遭碾压',
     rematch: '申请重赛',
@@ -47,7 +47,7 @@ const TEXT = {
     leave: '离开',
     vsMe: '我方',
     vsOpp: '对方',
-    producedBy: 'Produced by Kouzen Jo',
+    producedBy: 'Produced by Kouzen Joe',
     rights: '© 2024 All Rights Reserved'
   },
   en: {
@@ -72,7 +72,7 @@ const TEXT = {
     leave: 'Leave',
     vsMe: 'Me',
     vsOpp: 'Enemy',
-    producedBy: 'Produced by Kouzen Jo',
+    producedBy: 'Produced by Kouzen Joe',
     rights: '© 2024 All Rights Reserved'
   }
 };
@@ -293,9 +293,9 @@ function App() {
     <div className={isShaking ? 'shaking' : ''} style={styles.container}>
       {gameState !== 'lobby' && (
         <div style={styles.scene3D}>
-          {/* 新增：太阳 */}
+          {/* 太阳 */}
           <div style={styles.sun}></div>
-          {/* 新增：移动的云朵，应用 CSS 动画类名 */}
+          {/* 云朵 */}
           <div className="cloud-slow" style={{...styles.cloud, top: '15%', left: '10%'}}></div>
           <div className="cloud-medium" style={{...styles.cloud, top: '25%', left: '60%', transform: 'scale(0.8)', opacity: 0.8}}></div>
           
@@ -428,10 +428,16 @@ function App() {
 
 // --- CSS ---
 const styles = {
-  // 修改：背景色改为浅蓝天色
-  container: { height: '100vh', width: '100vw', overflow: 'hidden', 
-    touchAction: 'none', userSelect: 'none', fontFamily: '"Palatino Linotype", "Book Antiqua", serif', 
-    backgroundColor: '#87CEEB' },
+  // 修复2：使用 100dvh 解决手机端底部漏光问题
+  container: { 
+    height: '100dvh', // Dynamic Viewport Height
+    width: '100vw', 
+    overflow: 'hidden', 
+    touchAction: 'none', 
+    userSelect: 'none', 
+    fontFamily: '"Palatino Linotype", "Book Antiqua", serif', 
+    backgroundColor: '#87CEEB' 
+  },
 
   langBtn: {
     position: 'absolute', top: '20px', right: '20px',
@@ -446,18 +452,17 @@ const styles = {
     overflow: 'hidden', zIndex: 0,
   },
   
-  // 修改：地面渐变，远处透明露出天空
+  // 修复1：制造一条硬地平线，防止天空颜色透出
   fullScreenRoad: {
     position: 'absolute', 
     width: '300vw', height: '300vh', 
     left: '-100vw', top: '-100vh', 
-    // 从上到下：透明 -> 深褐色 -> 更深褐色
-    backgroundImage: `linear-gradient(to bottom, transparent 0%, rgba(93, 64, 55, 0.8) 40%, #3e2723 80%, #1a120b 100%)`,
+    // 前20%完全透明(留给天空)，在20%处突然变为结实的泥土色
+    backgroundImage: `linear-gradient(to bottom, transparent 0%, transparent 20%, #5d4037 20%, #3e2723 50%, #1a120b 100%)`,
     transform: 'rotateX(40deg) translateZ(-500px)',
     boxShadow: 'inset 0 0 200px rgba(0,0,0,0.5)', 
   },
 
-  // 新增：太阳样式
   sun: {
     position: 'absolute', top: '10%', right: '15%',
     width: '80px', height: '80px',
@@ -465,7 +470,6 @@ const styles = {
     boxShadow: '0 0 40px #FFD700, 0 0 80px #FFA500'
   },
 
-  // 新增：云朵基础样式
   cloud: {
     position: 'absolute', width: '120px', height: '40px',
     backgroundColor: '#fff', borderRadius: '50px',
