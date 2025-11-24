@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, set, update, runTransaction, off } from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
+// 确保你有这张图片，如果没有请注释掉下面这一行并修改 styles.lobbyOverlay
 import LobbyBg from './assets/my-bg.png';
 
 // --- Firebase 配置 ---
@@ -45,7 +46,10 @@ const TEXT = {
     soon: '即将开始...',
     leave: '离开',
     vsMe: '我方',
-    vsOpp: '对方'
+    vsOpp: '对方',
+    // 新增版权信息
+    producedBy: 'Produced by Kouzen Joe',
+    rights: '© 2024 All Rights Reserved'
   },
   en: {
     title: '⚔️ BOULDER CLASH ⚔️',
@@ -68,7 +72,10 @@ const TEXT = {
     soon: 'Starting...',
     leave: 'Leave',
     vsMe: 'Me',
-    vsOpp: 'Enemy'
+    vsOpp: 'Enemy',
+    // 新增版权信息
+    producedBy: 'Produced by Kouzen Joe',
+    rights: '© 2024 All Rights Reserved'
   }
 };
 
@@ -236,6 +243,8 @@ function App() {
 
   const handlePush = (e) => {
     if (gameState !== 'playing' || !roomRef.current) return;
+    
+    // 防止默认行为
     if (e.cancelable) e.preventDefault();
 
     setIsShaking(true);
@@ -244,8 +253,10 @@ function App() {
 
     playSound('hit');
     if (navigator.vibrate) navigator.vibrate(10, 30, 10); 
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    // 获取点击坐标 (PointerEvent 统一了 clientX/Y)
+    const clientX = e.clientX;
+    const clientY = e.clientY;
     createExplosion(clientX, clientY);
 
     runTransaction(ref(db, `rooms/${roomCode}/score`), (currentScore) => {
@@ -277,9 +288,6 @@ function App() {
   const myProgress = myRoleRef.current === 'host' ? score : (100 - score);
   
   // 修复2：调整映射系数 (12 -> 10)
-  // Z=0 (中间)
-  // Z=-500 (赢，变小但不消失)
-  // Z=+500 (输，变大但不出画)
   const stoneZ = (50 - myProgress) * 10; 
 
   let centerText = t.clash;
@@ -294,6 +302,7 @@ function App() {
     <div className={isShaking ? 'shaking' : ''} style={styles.container}>
       {gameState !== 'lobby' && (
         <div style={styles.scene3D}>
+          {/* 3. 修复：使用纯色渐变替代 404 图片 */}
           <div style={styles.fullScreenRoad}></div>
         </div>
       )}
@@ -320,7 +329,6 @@ function App() {
             </div>
             
             <div style={styles.woodCard}>
-              {/* 修复3：修复输入框对齐问题 */}
               <input 
                 style={styles.parchmentInput} 
                 placeholder={t.inputPlaceholder}
@@ -331,12 +339,19 @@ function App() {
               <button style={styles.btnWoodSecondary} onClick={joinRoom}>{t.join}</button>
             </div>
           </div>
+          
+          {/* 1. 新增：底部版权信息 */}
+          <div style={styles.footer}>
+            <p style={{margin: 0}}>{t.producedBy}</p>
+            <p style={{margin: '5px 0 0', fontSize: '0.7rem', opacity: 0.7}}>{t.rights}</p>
+          </div>
         </div>
       )}
 
       {/* --- 游戏层 --- */}
       {(gameState === 'playing' || gameState === 'finished') && (
-        <div style={styles.gameLayer} onTouchStart={handlePush} onMouseDown={handlePush}>
+        // 2. 修复：使用 onPointerDown 统一处理点击，解决手机双击问题
+        <div style={styles.gameLayer} onPointerDown={handlePush}>
           
           <div style={styles.centerHud}>
              <motion.div 
@@ -420,12 +435,11 @@ function App() {
 
 // --- CSS ---
 const styles = {
-  // 容器样式修改：确保震动时背景不会漏出来
+  // 容器样式
   container: { height: '100vh', width: '100vw', overflow: 'hidden', 
     touchAction: 'none', userSelect: 'none', fontFamily: '"Palatino Linotype", "Book Antiqua", serif', 
     backgroundColor: '#2b1d0e' },
 
-  
   // 语言按钮
   langBtn: {
     position: 'absolute', top: '20px', right: '20px',
@@ -440,25 +454,20 @@ const styles = {
     overflow: 'hidden', zIndex: 0,
   },
   
-  // 全屏土路：铺满整个视野
+  // 修复：使用线性渐变代替 404 图片
   fullScreenRoad: {
     position: 'absolute', 
     width: '300vw', height: '300vh', 
     left: '-100vw', top: '-100vh', 
-    backgroundColor: '#5d4037', 
-    // Low Poly 地砖纹理
-    backgroundImage: `
-      conic-gradient(from 0deg at 50% 50%, #5d4037 0deg, #4e342e 60deg, #6d4c41 120deg, #5d4037 180deg, #4e342e 240deg, #6d4c41 300deg, #5d4037 360deg),
-      repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, transparent 2px, transparent 10px)
-    `,
-    backgroundSize: '120px 120px', 
+    // 从下(近处)到上(远处)，颜色由浅变深，模拟纵深感
+    backgroundImage: `linear-gradient(to top, #5d4037 0%, #3e2723 40%, #2b1d0e 80%, #1a120b 100%)`,
     transform: 'rotateX(40deg) translateZ(-500px)', // 调整角度，让它看起来像平地延伸
     boxShadow: 'inset 0 0 200px rgba(0,0,0,0.8)', 
   },
 
   lobbyOverlay: {
     position: 'absolute', inset: 0, zIndex: 50,
-backgroundImage: `
+    backgroundImage: `
       linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
       url(${LobbyBg})
     `,
@@ -469,11 +478,16 @@ backgroundImage: `
     display: 'flex', 
     justifyContent: 'center', 
     alignItems: 'center',
-    // 增加一个模糊入场动画，看起来更高级
     animation: 'fadeIn 1s ease-out' 
   },
   lobbyInner: { width: '320px', textAlign: 'center' },
   
+  // 新增：底部版权样式
+  footer: {
+    position: 'absolute', bottom: '20px', width: '100%', textAlign: 'center',
+    color: '#aaa', fontSize: '0.8rem', letterSpacing: '1px', textShadow: '1px 1px 2px #000'
+  },
+
   gameLayer: { position: 'absolute', inset: 0, zIndex: 10 },
   
   centerHud: {
@@ -494,7 +508,6 @@ backgroundImage: `
   },
   stoneWrapper: {
     position: 'absolute', 
-    // 关键修复：石头稍微向下偏移，配合 rotateX(40deg) 的路面
     bottom: '20%', 
     transformStyle: 'preserve-3d'
   },
@@ -515,9 +528,8 @@ backgroundImage: `
     width: '100%', padding: '12px', marginTop: '10px', fontWeight: 'bold',
     background: '#5d4037', border: '2px solid #3e2723', borderRadius: '8px', color: '#d7ccc8'
   },
-  // 修复输入框样式
   parchmentInput: {
-    boxSizing: 'border-box', // 关键！确保 padding 不会撑大宽度
+    boxSizing: 'border-box', 
     width: '100%', 
     padding: '12px', 
     marginBottom: '10px', 
@@ -528,8 +540,8 @@ backgroundImage: `
     textAlign: 'center', 
     fontSize: '18px', 
     fontWeight: 'bold',
-    display: 'block', // 确保块级显示
-    margin: '0 auto 10px auto' // 居中
+    display: 'block', 
+    margin: '0 auto 10px auto' 
   },
 
   progressBarWrapper: {
