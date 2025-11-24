@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, set, update, runTransaction, off } from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
-import LobbyBg from './assets/my-bg.jpg';
+import LobbyBg from './assets/my-bg.png';
 
 // --- Firebase 配置 ---
 const firebaseConfig = {
