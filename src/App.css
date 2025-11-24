@@ -67,3 +67,16 @@ body {
   /* 确保震动时不出现滚动条 */
   overflow: hidden; 
 }
+
+@keyframes moveClouds {
+  from { margin-left: -20%; }
+  to { margin-left: 120%; }
+}
+
+.cloud-slow {
+  animation: moveClouds 60s linear infinite;
+}
+
+.cloud-medium {
+  animation: moveClouds 40s linear infinite;
+}
