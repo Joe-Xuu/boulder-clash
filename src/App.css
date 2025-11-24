@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  margin: 0;
+  /* 防止手机端下拉刷新破坏沉浸感 */
+  overscroll-behavior: none;
+}

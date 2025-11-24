@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, set, update, runTransaction, off } from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
+import LobbyBg from './assets/my-bg.jpg';
 
 // --- Firebase 配置 ---
 const firebaseConfig = {
@@ -453,7 +454,19 @@ const styles = {
 
   lobbyOverlay: {
     position: 'absolute', inset: 0, zIndex: 50,
-    backgroundColor: '#2c3e50', display: 'flex', justifyContent: 'center', alignItems: 'center',
+backgroundImage: `
+      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+      url(${LobbyBg})
+    `,
+    backgroundSize: 'cover',   // 铺满全屏
+    backgroundPosition: 'center', // 居中显示
+    backgroundRepeat: 'no-repeat',
+    
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    // 增加一个模糊入场动画，看起来更高级
+    animation: 'fadeIn 1s ease-out' 
   },
   lobbyInner: { width: '320px', textAlign: 'center' },
   
