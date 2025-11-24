@@ -26,7 +26,7 @@ const generateRoomCode = () => Math.floor(100000 + Math.random() * 900000).toStr
 // --- 多语言字典 ---
 const TEXT = {
   zh: {
-    title: '⚔️ 巨石纹章 ⚔️',
+    title: '⚔️ 推大石头 ⚔️',
     create: '建立决斗',
     join: '加入决斗',
     roomCode: '房间码',
@@ -38,7 +38,7 @@ const TEXT = {
     danger: '危险!',
     crushing: '碾压!',
     resist: '顶住!',
-    clash: '对决',
+    clash: '势均力敌',
     victory: '史诗大捷',
     defeat: '惨遭碾压',
     rematch: '申请重赛',
@@ -47,7 +47,7 @@ const TEXT = {
     leave: '离开',
     vsMe: '我方',
     vsOpp: '对方',
-    producedBy: 'Produced by Kouzen Joe',
+    producedBy: 'Produced by Kouzen Jo',
     rights: '© 2024 All Rights Reserved'
   },
   en: {
@@ -72,7 +72,7 @@ const TEXT = {
     leave: 'Leave',
     vsMe: 'Me',
     vsOpp: 'Enemy',
-    producedBy: 'Produced by Kouzen Joe',
+    producedBy: 'Produced by Kouzen Jo',
     rights: '© 2024 All Rights Reserved'
   }
 };
