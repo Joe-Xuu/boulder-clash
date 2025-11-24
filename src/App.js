@@ -144,7 +144,8 @@ function App() {
   const [score, setScore] = useState(50); 
   const [resultText, setResultText] = useState('');
   const [rematchStatus, setRematchStatus] = useState({ me: false, opponent: false });
-  
+  const [isShaking, setIsShaking] = useState(false);
+
   const myRoleRef = useRef(null); 
   const roomRef = useRef(null);
   const gameOverRef = useRef(false);
@@ -237,8 +238,12 @@ function App() {
     if (gameState !== 'playing' || !roomRef.current) return;
     if (e.cancelable) e.preventDefault();
 
+    setIsShaking(true);
+    // 200ms 后自动停止震动 (与 CSS 动画时间匹配)
+    setTimeout(() => setIsShaking(false), 200);
+
     playSound('hit');
-    if (navigator.vibrate) navigator.vibrate(10); 
+    if (navigator.vibrate) navigator.vibrate(10, 30, 10); 
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     createExplosion(clientX, clientY);
