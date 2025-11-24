@@ -54,8 +54,8 @@ npm or yarn
 * Installation
 1. Clone the repository
 
-`git clone https://github.com/your-username/boulder-clash.git`
-`cd boulder-clash`
+    `git clone https://github.com/your-username/boulder-clash.git`
+    `cd boulder-clash`
 
 2. Install dependencies
 
@@ -75,13 +75,13 @@ npm or yarn
 
 4. Set up Environment Variables Create a .env file in the root directory and add your Firebase keys:
 
-`REACT_APP_FIREBASE_API_KEY=your_api_key`
-`REACT_APP_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com`
-`REACT_APP_FIREBASE_DATABASE_URL=https://your_project_id.firebaseio.com`
-`REACT_APP_FIREBASE_PROJECT_ID=your_project_id`
-`REACT_APP_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com`
-`REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id`
-`REACT_APP_FIREBASE_APP_ID=your_app_id`
+    `REACT_APP_FIREBASE_API_KEY=your_api_key`
+    `REACT_APP_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com`
+    `REACT_APP_FIREBASE_DATABASE_URL=https://your_project_id.firebaseio.com`
+    `REACT_APP_FIREBASE_PROJECT_ID=your_project_id`
+    `REACT_APP_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com`
+    `REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id`
+    `REACT_APP_FIREBASE_APP_ID=your_app_id`
 
 5. Run the local server
 
