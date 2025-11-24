@@ -458,7 +458,7 @@ const styles = {
     width: '300vw', height: '300vh', 
     left: '-100vw', top: '-100vh', 
     // 前20%完全透明(留给天空)，在20%处突然变为结实的泥土色
-    backgroundImage: `linear-gradient(to bottom, transparent 20%, #5d4037 20%, #3e2723 50%, #1a120b 100%)`,
+    backgroundImage: `linear-gradient(to bottom, #5d4037 20%, #3e2723 50%, #1a120b 100%)`,
     transform: 'rotateX(40deg) translateZ(-500px)',
     boxShadow: 'inset 0 0 200px rgba(0,0,0,0.5)', 
   },
