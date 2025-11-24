@@ -290,11 +290,10 @@ function App() {
   if (myProgress < 20) { centerText = t.danger; dangerLevel = 2; }
 
   return (
-    <div style={styles.container}>
-      {/* --- 全屏土路背景 --- */}
+    // 根据 isShaking 状态动态添加 CSS 类
+    <div className={isShaking ? 'shaking' : ''} style={styles.container}>
       {gameState !== 'lobby' && (
         <div style={styles.scene3D}>
-          {/* 覆盖全屏的土路，调整了位置和角度，修复“悬浮”感 */}
           <div style={styles.fullScreenRoad}></div>
         </div>
       )}
@@ -421,11 +420,11 @@ function App() {
 
 // --- CSS ---
 const styles = {
-  container: {
-    height: '100vh', width: '100vw', overflow: 'hidden', touchAction: 'none', userSelect: 'none',
-    fontFamily: '"Palatino Linotype", "Book Antiqua", serif', 
-    backgroundColor: '#3e2723' // 背景色改为深土色，防止加载时闪白
-  },
+  // 容器样式修改：确保震动时背景不会漏出来
+  container: { height: '100vh', width: '100vw', overflow: 'hidden', 
+    touchAction: 'none', userSelect: 'none', fontFamily: '"Palatino Linotype", "Book Antiqua", serif', 
+    backgroundColor: '#2b1d0e' },
+
   
   // 语言按钮
   langBtn: {
