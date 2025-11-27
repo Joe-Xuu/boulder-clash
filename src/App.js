@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, set, update, runTransaction, off } from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
-// 确保你有这张图片，如果没有请注释掉下面这一行并修改 styles.lobbyOverlay
+
 import LobbyBg from './assets/my-bg.png';
 
 // --- Firebase 配置 ---
